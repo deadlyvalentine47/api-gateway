@@ -1,0 +1,161 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        # Route for User Service actuator endpoints
+        - id: user-service-actuator
+          uri: lb://user-service
+          predicates:
+            - Path=/api/users/actuator/**
+          filters:
+            - StripPrefix=2
+            - PreserveHostHeader
+        # Route for User Service APIs
+        - id: user-service-api
+          uri: lb://user-service
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - PreserveHostHeader
+        # Route for Product Service actuator endpoints
+        - id: product-service-actuator
+          uri: lb://product-service
+          predicates:
+            - Path=/api/products/actuator/**
+          filters:
+            - StripPrefix=2
+            - PreserveHostHeader
+        # Route for Product Service APIs
+        - id: product-service-api
+          uri: lb://product-service
+          predicates:
+            - Path=/api/products/**
+          filters:
+            - PreserveHostHeader
+        # Route for Cart Service actuator endpoints
+        - id: cart-service-actuator
+          uri: lb://cart-service
+          predicates:
+            - Path=/api/cart/actuator/**
+          filters:
+            - StripPrefix=2
+            - PreserveHostHeader
+        # Route for Cart Service APIs
+        - id: cart-service-api
+          uri: lb://cart-service
+          predicates:
+            - Path=/api/cart/**
+          filters:
+            - PreserveHostHeader
+        # Route for Order Service actuator endpoints
+        - id: order-service-actuator
+          uri: lb://order-service
+          predicates:
+            - Path=/api/orders/actuator/**
+          filters:
+            - StripPrefix=2
+            - PreserveHostHeader
+        # Route for Order Service APIs
+        - id: order-service-api
+          uri: lb://order-service
+          predicates:
+            - Path=/api/orders/**
+          filters:
+            - PreserveHostHeader
+        # Route for Payment Service actuator endpoints
+        - id: payment-service-actuator
+          uri: lb://payment-service
+          predicates:
+            - Path=/api/payments/actuator/**
+          filters:
+            - StripPrefix=2
+            - PreserveHostHeader
+        # Route for Payment Service APIs
+        - id: payment-service-api
+          uri: lb://payment-service
+          predicates:
+            - Path=/api/payments/**
+          filters:
+            - PreserveHostHeader
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8088/realms/ecommerce
+server:
+  port: 8080
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,info
+  endpoint:
+    health:
+      show-details: always
+
+#spring:
+#  application:
+#    name: api-gateway
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: user-service
+#          uri: lb://user-service
+#          predicates:
+#            - Path=/api/users/**
+#          filters:
+#            - StripPrefix=2
+#            - PreserveHostHeader
+#        - id: product-service
+#          uri: lb://product-service
+#          predicates:
+#            - Path=/api/products/**
+#          filters:
+#            - StripPrefix=2
+#            - PreserveHostHeader
+#        - id: cart-service
+#          uri: lb://cart-service
+#          predicates:
+#            - Path=/api/cart/**
+#          filters:
+#            - StripPrefix=2
+#            - PreserveHostHeader
+#        - id: order-service
+#          uri: lb://order-service
+#          predicates:
+#            - Path=/api/orders/**
+#          filters:
+#            - StripPrefix=2
+#            - PreserveHostHeader
+#        - id: payment-service
+#          uri: lb://payment-service
+#          predicates:
+#            - Path=/api/payments/**
+#          filters:
+#            - StripPrefix=2
+#            - PreserveHostHeader
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: http://localhost:8088/realms/ecommerce
+#server:
+#  port: 8080
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka/
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: health,metrics,info
+#  endpoint:
+#    health:
+#      show-details: always
