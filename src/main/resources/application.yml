@@ -79,17 +79,25 @@ spring:
             - Path=/api/payments/**
           filters:
             - PreserveHostHeader
+      default-filters:
+        - AddResponseHeader=Access-Control-Allow-Origin, http://localhost:3000
+        - AddResponseHeader=Access-Control-Allow-Methods, GET,POST,DELETE,PUT
+        - AddResponseHeader=Access-Control-Allow-Headers, Authorization,Content-Type
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8088/realms/ecommerce
+
 server:
   port: 8080
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
 management:
   endpoints:
     web:
